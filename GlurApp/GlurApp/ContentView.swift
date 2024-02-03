@@ -13,7 +13,7 @@ struct ContentView: View {
         Image(.red)
             .resizable()
             .aspectRatio(1.0, contentMode: .fit)
-            .blur(offset: 0.5, interpolation: 0.1)
+            .blur()
             .padding()
     }
 }

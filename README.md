@@ -4,6 +4,7 @@
 
 <p>
     <img src="https://img.shields.io/badge/iOS-17.0+-blue.svg" />
+    <img src="https://img.shields.io/badge/macOS-14.0+-red.svg" />
     <img src="https://img.shields.io/badge/-SwiftUI-red.svg" />
     <a href="https://twitter.com/joogps">
         <img src="https://img.shields.io/badge/Contact-@joogps-lightgrey.svg?style=social&logo=twitter" alt="Twitter: @joogps" />
@@ -26,8 +27,8 @@ Here are all optional parameters:
 
 ```swift
 .glur(offset: 0.3, // The offset until the blur starts being applied, relative to the size of the view
-      interpolation: 0.1, // The interpolation until the blur reaches its full radius, relative to the size of the view
-      radius: 6.0, // The full radius of the blur onde it has interpolated
+      interpolation: 0.4, // The interpolation until the blur reaches its full radius, relative to the size of the view
+      radius: 8.0, // The full radius of the blur once it has interpolated
       direction: .down // The direction of the blur
 )
 ```

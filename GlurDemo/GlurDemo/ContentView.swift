@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  GlurApp
+//  GlurDemo
 //
 //  Created by João Gabriel Pozzobon dos Santos on 10/06/23.
 //

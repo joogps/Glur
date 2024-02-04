@@ -9,18 +9,18 @@
 /* Begin PBXBuildFile section */
 		275EB5BB2A35817400A53D49 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 275EB5BA2A35817400A53D49 /* Glur */; };
 		27C73D842B6F335E006D5632 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27C73D832B6F335E006D5632 /* Glur */; };
-		27E19CFC2A3581170023F301 /* GlurAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFB2A3581170023F301 /* GlurAppApp.swift */; };
+		27E19CFC2A3581170023F301 /* GlurDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFB2A3581170023F301 /* GlurDemoApp.swift */; };
 		27E19CFE2A3581170023F301 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFD2A3581170023F301 /* ContentView.swift */; };
 		27E19D002A3581180023F301 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E19CFF2A3581180023F301 /* Assets.xcassets */; };
 		27E19D042A3581180023F301 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E19D032A3581180023F301 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		27E19CF82A3581170023F301 /* GlurApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlurApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		27E19CFB2A3581170023F301 /* GlurAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlurAppApp.swift; sourceTree = "<group>"; };
+		27C73D882B6F3407006D5632 /* GlurDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlurDemo.entitlements; sourceTree = "<group>"; };
+		27E19CF82A3581170023F301 /* GlurDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GlurDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27E19CFB2A3581170023F301 /* GlurDemoApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlurDemoApp.swift; sourceTree = "<group>"; };
 		27E19CFD2A3581170023F301 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		27E19CFF2A3581180023F301 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		27E19D012A3581180023F301 /* GlurApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GlurApp.entitlements; sourceTree = "<group>"; };
 		27E19D032A3581180023F301 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -40,7 +40,7 @@
 		27E19CEF2A3581170023F301 = {
 			isa = PBXGroup;
 			children = (
-				27E19CFA2A3581170023F301 /* GlurApp */,
+				27E19CFA2A3581170023F301 /* GlurDemo */,
 				27E19CF92A3581170023F301 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -48,21 +48,21 @@
 		27E19CF92A3581170023F301 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				27E19CF82A3581170023F301 /* GlurApp.app */,
+				27E19CF82A3581170023F301 /* GlurDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		27E19CFA2A3581170023F301 /* GlurApp */ = {
+		27E19CFA2A3581170023F301 /* GlurDemo */ = {
 			isa = PBXGroup;
 			children = (
-				27E19CFB2A3581170023F301 /* GlurAppApp.swift */,
+				27E19CFB2A3581170023F301 /* GlurDemoApp.swift */,
 				27E19CFD2A3581170023F301 /* ContentView.swift */,
 				27E19CFF2A3581180023F301 /* Assets.xcassets */,
-				27E19D012A3581180023F301 /* GlurApp.entitlements */,
+				27C73D882B6F3407006D5632 /* GlurDemo.entitlements */,
 				27E19D022A3581180023F301 /* Preview Content */,
 			);
-			path = GlurApp;
+			path = GlurDemo;
 			sourceTree = "<group>";
 		};
 		27E19D022A3581180023F301 /* Preview Content */ = {
@@ -76,9 +76,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		27E19CF72A3581170023F301 /* GlurApp */ = {
+		27E19CF72A3581170023F301 /* GlurDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 27E19D072A3581180023F301 /* Build configuration list for PBXNativeTarget "GlurApp" */;
+			buildConfigurationList = 27E19D072A3581180023F301 /* Build configuration list for PBXNativeTarget "GlurDemo" */;
 			buildPhases = (
 				27E19CF42A3581170023F301 /* Sources */,
 				27E19CF52A3581170023F301 /* Frameworks */,
@@ -88,13 +88,13 @@
 			);
 			dependencies = (
 			);
-			name = GlurApp;
+			name = GlurDemo;
 			packageProductDependencies = (
 				275EB5BA2A35817400A53D49 /* Glur */,
 				27C73D832B6F335E006D5632 /* Glur */,
 			);
 			productName = GlurApp;
-			productReference = 27E19CF82A3581170023F301 /* GlurApp.app */;
+			productReference = 27E19CF82A3581170023F301 /* GlurDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -112,7 +112,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 27E19CF32A3581170023F301 /* Build configuration list for PBXProject "GlurApp" */;
+			buildConfigurationList = 27E19CF32A3581170023F301 /* Build configuration list for PBXProject "GlurDemo" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -128,7 +128,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				27E19CF72A3581170023F301 /* GlurApp */,
+				27E19CF72A3581170023F301 /* GlurDemo */,
 			);
 		};
 /* End PBXProject section */
@@ -151,7 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				27E19CFE2A3581170023F301 /* ContentView.swift in Sources */,
-				27E19CFC2A3581170023F301 /* GlurAppApp.swift in Sources */,
+				27E19CFC2A3581170023F301 /* GlurDemoApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,10 +272,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = GlurApp/GlurApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GlurDemo/GlurDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"GlurApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"GlurDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = V9F4J6KX54;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -295,7 +295,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.GlurApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.GlurDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -310,10 +310,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = GlurApp/GlurApp.entitlements;
+				CODE_SIGN_ENTITLEMENTS = GlurDemo/GlurDemo.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"GlurApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"GlurDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = V9F4J6KX54;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -333,7 +333,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.GlurApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.joogps.GlurDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -346,7 +346,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		27E19CF32A3581170023F301 /* Build configuration list for PBXProject "GlurApp" */ = {
+		27E19CF32A3581170023F301 /* Build configuration list for PBXProject "GlurDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27E19D052A3581180023F301 /* Debug */,
@@ -355,7 +355,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		27E19D072A3581180023F301 /* Build configuration list for PBXNativeTarget "GlurApp" */ = {
+		27E19D072A3581180023F301 /* Build configuration list for PBXNativeTarget "GlurDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				27E19D082A3581180023F301 /* Debug */,

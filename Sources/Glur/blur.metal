@@ -10,16 +10,16 @@
 using namespace metal;
 
 float mapRadius(float2 position, float2 size, float offset, float interpolation, float radius, float direction) {
-    float mapped = 0.0;
+    float mapped;
     
     if (direction == 0) {
         mapped = max((position.y/size.y*3-offset)/interpolation, 0.0);
     } else if (direction == 1) {
-        mapped = -max((1.0-(position.y/size.y)*3-offset)/interpolation, 0.0);
+        mapped = max(1-(position.y/size.y*3-offset)/interpolation, 0.0);
     } else if (direction == 2) {
         mapped = max((position.x/size.x*3-offset)/interpolation, 0.0);
     } else if (direction == 3) {
-        mapped = -max((1.0-(position.x/size.x)*3-offset)/interpolation, 0.0);
+        mapped = max(1-(position.x/size.x*3-offset)/interpolation, 0.0);
     }
     
     return min(mapped*radius, radius);
@@ -46,15 +46,15 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
         return layer.sample(position);
     }
     
-    constexpr int kernelSize = 32;
+    constexpr int kernelSize = 64;
     half weights[kernelSize];
     
     calculateGaussianWeights(r, kernelSize, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
-        float offset = (i-(kernelSize-1)/2);
-        result+= layer.sample(position + float2(offset, 0.0))*weights[i];
+        float offset = i-(kernelSize-1)/2;
+        result+= layer.sample(position+float2(offset, 0.0))*weights[i];
     }
     
     return result;
@@ -67,7 +67,7 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
         return layer.sample(position);
     }
     
-    constexpr int kernelSize = 32;
+    constexpr int kernelSize = 64;
     half weights[kernelSize];
     
     calculateGaussianWeights(r, kernelSize, weights);
@@ -75,7 +75,7 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
         float offset = i-(kernelSize-1)/2;
-        result+= layer.sample(position+offset)*weights[i];
+        result+= layer.sample(position+float2(0.0, offset))*weights[i];
     }
     
     return result;

@@ -15,22 +15,22 @@ float mapRadius(float2 position, float2 size, float offset, float interpolation,
     if (direction == 0) {
         mapped = max((position.y/size.y*3-offset)/interpolation, 0.0);
     } else if (direction == 1) {
-        mapped = 1-max((position.y/size.y*3-offset)/interpolation, 0.0);
+        mapped = -max((1.0-(position.y/size.y)*3-offset)/interpolation, 0.0);
     } else if (direction == 2) {
         mapped = max((position.x/size.x*3-offset)/interpolation, 0.0);
     } else if (direction == 3) {
-        mapped = 1-max((position.x/size.x*3-offset)/interpolation, 0.0);
+        mapped = -max((1.0-(position.x/size.x)*3-offset)/interpolation, 0.0);
     }
     
-    return mapped;
+    return min(mapped*radius, radius);
 }
 
 void calculateGaussianWeights(float radius, int kernelSize, thread half weights[]) {
-    half sum = 0;
+    half sum = 0.0;
     
     for (int i = 0; i < kernelSize; ++i) {
         float x = i-(kernelSize-1)/2;
-        weights[i] = exp(-(x*x)/(2*radius*radius));
+        weights[i] = exp(-(x*x)/(2.0*radius*radius));
         sum+= weights[i];
     }
     
@@ -46,15 +46,15 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
         return layer.sample(position);
     }
     
-    constexpr int kernelSize = 15;
+    constexpr int kernelSize = 32;
     half weights[kernelSize];
     
     calculateGaussianWeights(r, kernelSize, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
-        float offset = (i - (kernelSize - 1) / 2);
-        result+= layer.sample(position + float2(offset, 0.0)) * weights[i];
+        float offset = (i-(kernelSize-1)/2);
+        result+= layer.sample(position + float2(offset, 0.0))*weights[i];
     }
     
     return result;
@@ -67,15 +67,15 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
         return layer.sample(position);
     }
     
-    constexpr int kernelSize = 15;
+    constexpr int kernelSize = 32;
     half weights[kernelSize];
     
     calculateGaussianWeights(r, kernelSize, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
-        float offset = i - (kernelSize - 1) / 2;
-        result+= layer.sample(position+offset) * weights[i];
+        float offset = i-(kernelSize-1)/2;
+        result+= layer.sample(position+offset)*weights[i];
     }
     
     return result;

@@ -19,9 +19,8 @@ struct ContentView: View {
                 .clipShape(.rect(cornerRadius: 57/2))
                 .padding(32)
                 .background(Color("Black"))
-                .glur()
+                .glur(offset: 0.5, interpolation: 0.5, radius: 32.0, direction: .left)
         }
-        .ignoresSafeArea()
     }
 }
 

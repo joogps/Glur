@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct GlurAppApp: App {
+struct GlurApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

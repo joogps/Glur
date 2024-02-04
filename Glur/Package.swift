@@ -5,13 +5,12 @@ import PackageDescription
 
 let package = Package(
     name: "Glur",
-    platforms: [.iOS(.v17), .macOS(.v14)],
+    platforms: [.iOS(.v17), .macOS(.v14), .watchOS(.v10), .tvOS(.v17), .visionOS(.v1)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Glur",
             targets: ["Glur"]),
-        
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.

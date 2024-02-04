@@ -10,11 +10,19 @@ import Glur
 
 struct ContentView: View {
     var body: some View {
-        Image(.red)
-            .resizable()
-            .aspectRatio(1.0, contentMode: .fit)
-            .blur()
-            .padding()
+        ZStack {
+            Color("Black")
+            
+            LinearGradient(colors: [Color("Color 1"), Color("Color 2"), Color("Color 3")], startPoint: .top, endPoint: .bottom)
+                .aspectRatio(1.0, contentMode: .fit)
+                .frame(width: 128)
+                .clipShape(.rect(cornerRadius: 57/2))
+                .padding(32)
+                .background(Color("Black"))
+                .drawingGroup()
+                .glur(offset: 0.3, interpolation: 0.3, radius: 24.0)
+        }
+        .ignoresSafeArea()
     }
 }
 

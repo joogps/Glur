@@ -19,7 +19,7 @@ float mapRadius(float2 position, float2 size, float offset, float interpolation,
     } else if (direction == 2) {
         mapped = max((position.x/size.x*3-offset)/interpolation, 0.0);
     } else if (direction == 3) {
-        mapped = -max((position.x/size.x*3-offset)/interpolation, 0.0);
+        mapped = 1-max((position.x/size.x*3-offset)/interpolation, 0.0);
     }
     
     return min(round(mapped*radius), radius);

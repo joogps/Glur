@@ -1,5 +1,5 @@
 <h1> Glur
-  <img align="right" alt="Project logo" src="../assets/Icon.png" width=74px>
+  <img align="right" alt="Project logo" src="../assets/Icon.png" width=128px>
 </h1>
 
 <p>

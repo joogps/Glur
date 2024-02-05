@@ -6,7 +6,7 @@ extension View {
     /// A modifier that applies a gradient blur effect to the view.
     public func glur(offset: CGFloat = 0.3,
                      interpolation: CGFloat = 0.4,
-                     radius: CGFloat = 32.0,
+                     radius: CGFloat = 8.0,
                      direction: BlurDirection = .down) -> some View {
         self
             .drawingGroup()

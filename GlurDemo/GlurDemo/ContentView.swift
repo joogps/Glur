@@ -9,11 +9,19 @@ import SwiftUI
 import Glur
 
 struct ContentView: View {
+    
+    @Environment(\.displayScale) var displayScale
+    
     var body: some View {
         ZStack {
             Color("Black")
             
-            gradient
+            TabView {
+                gradient
+                image
+            }
+            .tabViewStyle(.page)
+            .padding()
         }
         .ignoresSafeArea()
     }
@@ -25,16 +33,28 @@ struct ContentView: View {
             .clipShape(.rect(cornerRadius: 57/2))
             .padding(32)
             .background(Color("Black"))
-            .glur(offset: 0.3, interpolation: 0.4, radius: 24.0, direction: .down)
+            .glur(offset: 0.3, interpolation: 0.5, radius: 32.0)
     }
     
     var image: some View {
-        Image("red")
+        Image("Sunburn")
             .resizable()
             .aspectRatio(1.0, contentMode: .fit)
             .frame(width: 256)
-            .glur(offset: 0.1, interpolation: 0.4, radius: 8.0, direction: .up)
+            .glur(offset: 0.7, interpolation: 0.2, radius: 8.0, direction: .down)
+            .overlay {
+                LinearGradient(stops: [.init(color: .clear, location: 0.5), .init(color: .black.opacity(0.6), location: 0.8)], startPoint: .top, endPoint: .bottom)
+            }
             .clipShape(.rect(cornerRadius: 12.0))
+            .overlay(alignment: .bottomLeading) {
+                VStack(alignment: .leading) {
+                    Text("Sunburn")
+                        .font(.headline)
+                    Text("Dominic Fike")
+                        .foregroundColor(.secondary)
+                }
+                .padding()
+            }
     }
 }
 

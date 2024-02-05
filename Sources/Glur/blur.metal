@@ -9,23 +9,31 @@
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
-float mapRadius(float2 position, float2 size, float offset, float interpolation, float radius, float direction) {
+float mapRadius(float2 position,
+                float2 size,
+                float offset,
+                float interpolation,
+                float radius,
+                float direction,
+                float displayScale) {
     float mapped;
     
     if (direction == 0) {
-        mapped = max((position.y/size.y*3-offset)/interpolation, 0.0);
+        mapped = max((position.y/size.y*displayScale-offset)/interpolation, 0.0);
     } else if (direction == 1) {
-        mapped = max(1-(position.y/size.y*3-offset)/interpolation, 0.0);
+        mapped = max(1-(position.y/size.y*displayScale-offset)/interpolation, 0.0);
     } else if (direction == 2) {
-        mapped = max((position.x/size.x*3-offset)/interpolation, 0.0);
+        mapped = max((position.x/size.x*displayScale-offset)/interpolation, 0.0);
     } else if (direction == 3) {
-        mapped = max(1-(position.x/size.x*3-offset)/interpolation, 0.0);
+        mapped = max(1-(position.x/size.x*displayScale-offset)/interpolation, 0.0);
     }
     
     return min(mapped*radius, radius);
 }
 
-void calculateGaussianWeights(float radius, int kernelSize, thread half weights[]) {
+void calculateGaussianWeights(float radius,
+                              int kernelSize,
+                              thread half weights[]) {
     half sum = 0.0;
     
     for (int i = 0; i < kernelSize; ++i) {
@@ -39,8 +47,19 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
     }
 }
 
-[[ stitchable ]] half4 blurX(float2 position, SwiftUI::Layer layer, float offset, float interpolation, float radius, float direction) {
-    float r = mapRadius(position, float2(layer.tex.get_width(), layer.tex.get_height()), offset, interpolation, radius, direction);
+[[ stitchable ]] half4 blurX(float2 position,
+                             SwiftUI::Layer layer,
+                             float offset,
+                             float interpolation,
+                             float radius,
+                             float direction,
+                             float displayScale) {
+    float r = mapRadius(position,
+                        float2(layer.tex.get_width(), layer.tex.get_height()),
+                        offset, interpolation,
+                        radius,
+                        direction,
+                        displayScale);
     
     if (r == 0) {
         return layer.sample(position);
@@ -60,8 +79,19 @@ void calculateGaussianWeights(float radius, int kernelSize, thread half weights[
     return result;
 }
 
-[[ stitchable ]] half4 blurY(float2 position, SwiftUI::Layer layer, float offset, float interpolation, float radius, float direction) {
-    float r = mapRadius(position, float2(layer.tex.get_width(), layer.tex.get_height()), offset, interpolation, radius, direction);
+[[ stitchable ]] half4 blurY(float2 position,
+                             SwiftUI::Layer layer,
+                             float offset,
+                             float interpolation,
+                             float radius,
+                             float direction,
+                             float displayScale) {
+    float r = mapRadius(position,
+                        float2(layer.tex.get_width(), layer.tex.get_height()),
+                        offset, interpolation,
+                        radius,
+                        direction,
+                        displayScale);
     
     if (r == 0) {
         return layer.sample(position);

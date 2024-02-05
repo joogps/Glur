@@ -8,10 +8,46 @@ extension View {
                      interpolation: CGFloat = 0.4,
                      radius: CGFloat = 8.0,
                      direction: BlurDirection = .down) -> some View {
-        self
+        modifier(GlurModifier(offset: offset,
+                              interpolation: interpolation,
+                              radius: radius,
+                              direction: direction))
+    }
+}
+
+private struct GlurModifier: ViewModifier {
+    public var offset: CGFloat
+    public var interpolation: CGFloat
+    public var radius: CGFloat
+    public var direction: BlurDirection
+    
+    @Environment(\.displayScale) var displayScale
+    
+    var blurX: Shader {
+        var shader = library.blurX(.float(offset),
+                      .float(interpolation),
+                      .float(radius),
+                      .float(Float(direction.rawValue)),
+                      .float(displayScale))
+        shader.dithersColor = true
+        return shader
+    }
+    
+    var blurY: Shader {
+        var shader = library.blurY(.float(offset),
+                                   .float(interpolation),
+                                   .float(radius),
+                                   .float(Float(direction.rawValue)),
+                                   .float(displayScale))
+        shader.dithersColor = true
+        return shader
+    }
+    
+    public func body(content: Content) -> some View {
+        content
             .drawingGroup()
-            .layerEffect(library.blurX(.float(offset), .float(interpolation), .float(radius), .float(Float(direction.rawValue))), maxSampleOffset: .zero)
-            .layerEffect(library.blurY(.float(offset), .float(interpolation), .float(radius), .float(Float(direction.rawValue))), maxSampleOffset: .zero)
+            .layerEffect(blurX, maxSampleOffset: .zero)
+            .layerEffect(blurY, maxSampleOffset: .zero)
     }
 }
 

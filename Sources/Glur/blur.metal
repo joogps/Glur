@@ -9,6 +9,8 @@
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
+#define kernelSize (64)
+
 float mapRadius(float2 position,
                 float2 size,
                 float offset,
@@ -32,7 +34,6 @@ float mapRadius(float2 position,
 }
 
 void calculateGaussianWeights(float radius,
-                              int kernelSize,
                               thread half weights[]) {
     half sum = 0.0;
     
@@ -65,10 +66,9 @@ void calculateGaussianWeights(float radius,
         return layer.sample(position);
     }
     
-    constexpr int kernelSize = 64;
     half weights[kernelSize];
     
-    calculateGaussianWeights(r, kernelSize, weights);
+    calculateGaussianWeights(r, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
@@ -97,10 +97,9 @@ void calculateGaussianWeights(float radius,
         return layer.sample(position);
     }
     
-    constexpr int kernelSize = 64;
     half weights[kernelSize];
     
-    calculateGaussianWeights(r, kernelSize, weights);
+    calculateGaussianWeights(r, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {

@@ -20,8 +20,8 @@ internal struct CompatibilityModifier: ViewModifier {
                     .drawingGroup()
                     .allowsHitTesting(false)
                     .blur(radius: radius)
+                    .scaleEffect(1+(radius*0.02))
                     .mask(gradientMask)
-                    .clipped()
             }
     }
     

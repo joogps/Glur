@@ -8,7 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		275EB5BB2A35817400A53D49 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 275EB5BA2A35817400A53D49 /* Glur */; };
-		27C73D842B6F335E006D5632 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27C73D832B6F335E006D5632 /* Glur */; };
+		27B4CA5A2B76870600A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA592B76870600A81A32 /* Glur */; };
+		27B4CA5D2B76871D00A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA5C2B76871D00A81A32 /* Glur */; };
+		27B4CA602B76874500A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA5F2B76874500A81A32 /* Glur */; };
+		27B4CA632B76882C00A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA622B76882C00A81A32 /* Glur */; };
+		27B4CA662B76885A00A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA652B76885A00A81A32 /* Glur */; };
 		27E19CFC2A3581170023F301 /* GlurDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFB2A3581170023F301 /* GlurDemoApp.swift */; };
 		27E19CFE2A3581170023F301 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFD2A3581170023F301 /* ContentView.swift */; };
 		27E19D002A3581180023F301 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E19CFF2A3581180023F301 /* Assets.xcassets */; };
@@ -29,8 +33,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27C73D842B6F335E006D5632 /* Glur in Frameworks */,
+				27B4CA602B76874500A81A32 /* Glur in Frameworks */,
+				27B4CA632B76882C00A81A32 /* Glur in Frameworks */,
+				27B4CA662B76885A00A81A32 /* Glur in Frameworks */,
 				275EB5BB2A35817400A53D49 /* Glur in Frameworks */,
+				27B4CA5D2B76871D00A81A32 /* Glur in Frameworks */,
+				27B4CA5A2B76870600A81A32 /* Glur in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,7 +99,11 @@
 			name = GlurDemo;
 			packageProductDependencies = (
 				275EB5BA2A35817400A53D49 /* Glur */,
-				27C73D832B6F335E006D5632 /* Glur */,
+				27B4CA592B76870600A81A32 /* Glur */,
+				27B4CA5C2B76871D00A81A32 /* Glur */,
+				27B4CA5F2B76874500A81A32 /* Glur */,
+				27B4CA622B76882C00A81A32 /* Glur */,
+				27B4CA652B76885A00A81A32 /* Glur */,
 			);
 			productName = GlurApp;
 			productReference = 27E19CF82A3581170023F301 /* GlurDemo.app */;
@@ -122,7 +134,7 @@
 			);
 			mainGroup = 27E19CEF2A3581170023F301;
 			packageReferences = (
-				27C73D822B6F335E006D5632 /* XCLocalSwiftPackageReference ".." */,
+				27B4CA642B76885A00A81A32 /* XCLocalSwiftPackageReference ".." */,
 			);
 			productRefGroup = 27E19CF92A3581170023F301 /* Products */;
 			projectDirPath = "";
@@ -367,7 +379,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		27C73D822B6F335E006D5632 /* XCLocalSwiftPackageReference ".." */ = {
+		27B4CA642B76885A00A81A32 /* XCLocalSwiftPackageReference ".." */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ..;
 		};
@@ -378,7 +390,23 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = Glur;
 		};
-		27C73D832B6F335E006D5632 /* Glur */ = {
+		27B4CA592B76870600A81A32 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Glur;
+		};
+		27B4CA5C2B76871D00A81A32 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Glur;
+		};
+		27B4CA5F2B76874500A81A32 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Glur;
+		};
+		27B4CA622B76882C00A81A32 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Glur;
+		};
+		27B4CA652B76885A00A81A32 /* Glur */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Glur;
 		};

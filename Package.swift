@@ -5,7 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "Glur",
-    platforms: [.iOS(.v15), .macOS(.v12), .watchOS(.v10), .tvOS(.v15), .visionOS(.v1)],
+    platforms: [.iOS(.v13), .macOS(.v10_13), .watchOS(.v7), .tvOS(.v12), .visionOS(.v1)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(

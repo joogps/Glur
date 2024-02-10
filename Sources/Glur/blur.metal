@@ -67,13 +67,14 @@ void calculateGaussianWeights(float radius,
     }
     
     half weights[kernelSize];
-    
     calculateGaussianWeights(r, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
         float offset = i-(kernelSize-1)/2;
-        result+= layer.sample(position+float2(offset, 0.0))*weights[i];
+        float x = clamp(position.x+offset, 0.0, layer.tex.get_width()-1.0);
+        
+        result+= layer.sample(float2(x, position.y))*weights[i];
     }
     
     return result;
@@ -98,13 +99,14 @@ void calculateGaussianWeights(float radius,
     }
     
     half weights[kernelSize];
-    
     calculateGaussianWeights(r, weights);
     
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
         float offset = i-(kernelSize-1)/2;
-        result+= layer.sample(position+float2(0.0, offset))*weights[i];
+        float y = clamp(position.y+offset, 0.0, layer.tex.get_width()-1.0);
+        
+        result+= layer.sample(float2(position.x, y))*weights[i];
     }
     
     return result;

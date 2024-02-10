@@ -15,15 +15,17 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             Color("Black")
+                .ignoresSafeArea()
             
             TabView {
                 gradient
                 image
             }
+            #if os(iOS)
             .tabViewStyle(.page)
-            .padding()
+            #endif
+            .padding(.vertical)
         }
-        .ignoresSafeArea()
     }
     
     var gradient: some View {

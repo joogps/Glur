@@ -3,10 +3,10 @@
 </h1>
 
 <p>
-    <img src="https://img.shields.io/badge/iOS-13.0+-white.svg" />
-    <img src="https://img.shields.io/badge/macOS-10.13+-white.svg" />
-    <img src="https://img.shields.io/badge/watchOS-6.0+-white.svg" />
-    <img src="https://img.shields.io/badge/tvOS-13.0+-white.svg" />
+    <img src="https://img.shields.io/badge/iOS-15.0+-white.svg" />
+    <img src="https://img.shields.io/badge/macOS-12.0+-white.svg" />
+    <img src="https://img.shields.io/badge/watchOS-8.0+-white.svg" />
+    <img src="https://img.shields.io/badge/tvOS-15.0+-white.svg" />
     <img src="https://img.shields.io/badge/visionOS-1.0+-white.svg" />
     <br>
     <img src="https://img.shields.io/badge/-SwiftUI-red.svg" />

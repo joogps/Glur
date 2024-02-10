@@ -3,8 +3,12 @@
 </h1>
 
 <p>
-    <img src="https://img.shields.io/badge/iOS-17.0+-blue.svg" />
-    <img src="https://img.shields.io/badge/macOS-14.0+-orange.svg" />
+    <img src="https://img.shields.io/badge/iOS-13.0+-white.svg" />
+    <img src="https://img.shields.io/badge/macOS-10.13+-white.svg" />
+    <img src="https://img.shields.io/badge/watchOS-6.0+-white.svg" />
+    <img src="https://img.shields.io/badge/tvOS-13.0+-white.svg" />
+    <img src="https://img.shields.io/badge/visionOS-1.0+-white.svg" />
+    <br>
     <img src="https://img.shields.io/badge/-SwiftUI-red.svg" />
     <a href="https://twitter.com/joogps">
         <img src="https://img.shields.io/badge/Contact-@joogps-lightgrey.svg?style=social&logo=twitter" alt="Twitter: @joogps" />
@@ -16,6 +20,9 @@ A SwiftUI library that uses Metal to display efficient progressive blurs, just l
 ## Installation
 This repository is a Swift package, so just include it in your Xcode project and target under **File > Add package dependencies**. Then, `import Glur` to the Swift files where you'll be using it.
 
+> [!NOTE]  
+> While Glur is supported on older platforms, it will only utilize the Metal implementation of the blur effect on **iOS 17.0 and later, macOS 13.0 and later, watchOS 10.0 and later, and tvOS 17.0 and later**. Otherwise, it will present a worse, compatibility effect that should be tested by the developer before being used in production.
+
 ## Usage
 You can add a glur effect with the following modifier:
 
@@ -26,9 +33,9 @@ You can add a glur effect with the following modifier:
 Here are all optional parameters:
 
 ```swift
-.glur(offset: 0.3, // The offset until the blur starts being applied, relative to the size of the view
+.glur(radius: 8.0, // The full radius of the blur once it has interpolated
+      offset: 0.3, // The offset until the blur starts being applied, relative to the size of the view
       interpolation: 0.4, // The interpolation until the blur reaches its full radius, relative to the size of the view
-      radius: 8.0, // The full radius of the blur once it has interpolated
       direction: .down // The direction of the blur
 )
 ```
@@ -39,9 +46,8 @@ This project makes use of Apple's new simplified [Shader API for SwiftUI](https:
 
 Given that the shader is applied through Apple's own Shader API for SwiftUI, it's restricted by the limitations imposed by that API. This means that **it can only be applied to pure SwiftUI views**, excluding UIKit-backed views, such as ScrollView.
 
----
-
-If you want to learn how to write your first Metal shader with SwiftUI, check out [this tutorial](https://cindori.com/developer/swiftui-shaders-wave) that I wrote for the [Cindori](https://cindori.com) blog.
+> [!TIP]
+> If you want to learn how to write your first Metal shader with SwiftUI, check out [this tutorial](https://cindori.com/developer/swiftui-shaders-wave) that I wrote for the [Cindori](https://cindori.com) blog.
 
 # Demo
 

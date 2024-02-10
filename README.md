@@ -40,6 +40,9 @@ Here are all optional parameters:
 )
 ```
 
+> [!WARNING]  
+> When being used in the iOS simulator, SwiftUI shader effects may not be displayed if the view exceeds 545 points in either dimension. Please note that, on a physical device, the effect should work as intented. 
+
 ## How it's done
 
 This project makes use of Apple's new simplified [Shader API for SwiftUI](https://developer.apple.com/documentation/swiftui/shader). I first coded a Metal shader that produces a gaussian blur for the modified view with the correct gaussian weights distribution, efficiently. Then, I modified it to vary the blur radius over the vertical or horizontal axis given the offset and interpolation values.

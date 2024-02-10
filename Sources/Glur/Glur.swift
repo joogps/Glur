@@ -18,15 +18,22 @@ extension View {
         assert(interpolation >= 0.0 && interpolation <= 1.0, "Interpolation must be between 0 and 1")
         
         if #available(iOS 17.0, macOS 14.0, watchOS 10.0, tvOS 17.0, visionOS 1.0, *) {
-            return modifier(GlurModifier(offset: offset,
-                                  interpolation: interpolation,
-                                  radius: radius,
-                                  direction: direction))
+            return modifier(GlurModifier(radius: radius,
+                                         offset: offset,
+                                         interpolation: interpolation,
+                                         direction: direction))
         } else {
-            return modifier(CompatibilityModifier(offset: offset,
-                                  interpolation: interpolation,
-                                  radius: radius,
-                                  direction: direction))
+            return modifier(CompatibilityModifier(radius: radius,
+                                                  offset: offset,
+                                                  interpolation: interpolation,
+                                                  direction: direction))
         }
     }
+}
+
+public enum BlurDirection: Int {
+    case down = 0
+    case up = 1
+    case right = 2
+    case left = 3
 }

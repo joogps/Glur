@@ -8,9 +8,9 @@
 import SwiftUI
 
 internal struct CompatibilityModifier: ViewModifier {
+    public var radius: CGFloat
     public var offset: CGFloat
     public var interpolation: CGFloat
-    public var radius: CGFloat
     public var direction: BlurDirection
     
     func body(content: Content) -> some View {

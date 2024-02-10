@@ -50,9 +50,9 @@ void calculateGaussianWeights(float radius,
 
 [[ stitchable ]] half4 blurX(float2 position,
                              SwiftUI::Layer layer,
+                             float radius,
                              float offset,
                              float interpolation,
-                             float radius,
                              float direction,
                              float displayScale) {
     float r = mapRadius(position,
@@ -82,9 +82,9 @@ void calculateGaussianWeights(float radius,
 
 [[ stitchable ]] half4 blurY(float2 position,
                              SwiftUI::Layer layer,
+                             float radius,
                              float offset,
                              float interpolation,
-                             float radius,
                              float direction,
                              float displayScale) {
     float r = mapRadius(position,

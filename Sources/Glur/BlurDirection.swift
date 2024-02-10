@@ -14,7 +14,7 @@ public enum BlurDirection: Int {
     case left = 3
     
     var unitPoints: (UnitPoint, UnitPoint) {
-        switch direction {
+        switch self {
         case .down:
             return (.top, .bottom)
         case .up:

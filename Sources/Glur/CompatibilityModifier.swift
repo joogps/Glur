@@ -26,24 +26,7 @@ internal struct CompatibilityModifier: ViewModifier {
     }
     
     var gradientMask: some View {
-        var startPoint: UnitPoint
-        var endPoint: UnitPoint
-        
-        switch direction {
-        case .down:
-            startPoint = .top
-            endPoint = .bottom
-        case .up:
-            startPoint = .bottom
-            endPoint = .top
-        case .right:
-            startPoint = .leading
-            endPoint = .trailing
-        case .left:
-            startPoint = .trailing
-            endPoint = .leading
-        }
-        
+        var (startPoint, endPoint) = direction.unitPoints
         
         return LinearGradient(stops: [
             .init(color: .clear, location: 0),

@@ -30,10 +30,3 @@ extension View {
         }
     }
 }
-
-public enum BlurDirection: Int {
-    case down = 0
-    case up = 1
-    case right = 2
-    case left = 3
-}

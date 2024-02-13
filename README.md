@@ -5,6 +5,7 @@
 <p>
     <img src="https://img.shields.io/badge/iOS-15.0+-FF4D00.svg" />
     <img src="https://img.shields.io/badge/macOS-12.0+-FF4D00.svg" />
+    <img src="https://img.shields.io/badge/watchOS-8.0+-FF4D00.svg" />
     <img src="https://img.shields.io/badge/tvOS-15.0+-FF4D00.svg" />
     <img src="https://img.shields.io/badge/visionOS-1.0+-FF4D00.svg" />
     <br>
@@ -21,6 +22,8 @@ This repository is a Swift package, so just include it in your Xcode project and
 
 > [!NOTE]  
 > While Glur is supported on older platforms, it will only utilize the Metal implementation of the blur effect on **iOS 17.0 and later, macOS 14.0 and later, and tvOS 17.0 and later**. Otherwise, it will present a worse, compatibility effect that should be tested by the developer before being used in production.
+> 
+> **The Metal implementation is not available on watchOS**, and therefore the compatibility effect will be presented on this platform by default.
 
 ## Usage
 You can add a glur effect with the following modifier:

@@ -47,7 +47,9 @@ Here are all optional parameters:
 
 ## How it's done
 
-This project makes use of Apple's new simplified [Shader API for SwiftUI](https://developer.apple.com/documentation/swiftui/shader). I first coded a Metal shader that produces a gaussian blur for the modified view with the correct gaussian weights distribution, efficiently. Then, I modified it to vary the blur radius over the vertical or horizontal axis given the offset and interpolation values.
+This project builds on a [proof of concept](https://twitter.com/joogps/status/1667240291869270032) developed in June of 2023, right after WWDC.
+
+It makes use of Apple's new simplified [Shader API for SwiftUI](https://developer.apple.com/documentation/swiftui/shader). First, I coded a Metal shader that produced a gaussian blur for the modified view with the correct gaussian weights distribution, efficiently. Then, I modified it slightly to vary the blur radius over the vertical or horizontal axis given the offset, interpolation and direction values.
 
 > [!WARNING]
 > Given that the shader is applied through Apple's own Shader API for SwiftUI, it is restricted by the limitations imposed by that API. This means that Glur **can only be applied to pure SwiftUI views**, excluding UIKit-backed views, such as `ScrollView`.

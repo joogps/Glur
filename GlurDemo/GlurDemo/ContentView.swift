@@ -15,8 +15,8 @@ struct ContentView: View {
                 .ignoresSafeArea()
             
             TabView {
-                gradient
-                image
+                icon
+                albumCover
             }
             #if os(iOS)
             .tabViewStyle(.page)
@@ -25,7 +25,7 @@ struct ContentView: View {
         }
     }
     
-    var gradient: some View {
+    var icon: some View {
         LinearGradient(colors: [Color("Color 1"), Color("Color 2"), Color("Color 3")], startPoint: .top, endPoint: .bottom)
             .aspectRatio(1.0, contentMode: .fit)
             .frame(width: 128)
@@ -35,7 +35,7 @@ struct ContentView: View {
             .glur(radius: 32.0, offset: 0.3, interpolation: 0.5)
     }
     
-    var image: some View {
+    var albumCover: some View {
         Image("Sunburn")
             .resizable()
             .aspectRatio(1.0, contentMode: .fit)

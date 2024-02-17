@@ -9,9 +9,6 @@ import SwiftUI
 import Glur
 
 struct ContentView: View {
-    
-    @Environment(\.displayScale) var displayScale
-    
     var body: some View {
         ZStack {
             Color("Black")

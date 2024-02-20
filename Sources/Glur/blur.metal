@@ -23,11 +23,11 @@ float mapRadius(float2 position,
     if (direction == 0) {
         mapped = max((position.y/size.y*displayScale-offset)/interpolation, 0.0);
     } else if (direction == 1) {
-        mapped = max(1-(position.y/size.y*displayScale-offset)/interpolation, 0.0);
+        mapped = max(0.5-(position.y/size.y*displayScale-offset)/interpolation, 0.0);
     } else if (direction == 2) {
         mapped = max((position.x/size.x*displayScale-offset)/interpolation, 0.0);
     } else if (direction == 3) {
-        mapped = max(1-(position.x/size.x*displayScale-offset)/interpolation, 0.0);
+        mapped = max(0.5-(position.x/size.x*displayScale-offset)/interpolation, 0.0);
     }
     
     return min(mapped*radius, radius);

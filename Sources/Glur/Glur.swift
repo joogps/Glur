@@ -9,6 +9,12 @@ import SwiftUI
 
 extension View {
     /// A modifier that applies a gradient blur effect to the view.
+    ///
+    /// - Parameters:
+    ///   - radius: The total radius of the blur effect when fully applied.
+    ///   - offset: The distance from the view's edge to where the effect begins, relative to the view's size.
+    ///   - interpolation: The distance from the offset to where the effect is fully applied, relative to the view's size.
+    ///   - direction: The direction in which the effect is applied.
     public func glur(radius: CGFloat = 8.0,
                      offset: CGFloat = 0.3,
                      interpolation: CGFloat = 0.4,

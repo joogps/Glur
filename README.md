@@ -35,10 +35,10 @@ You can add a glur effect with the following modifier:
 Here are all optional parameters:
 
 ```swift
-.glur(radius: 8.0, // The full radius of the blur once it has interpolated
-      offset: 0.3, // The offset until the blur starts being applied, relative to the size of the view
-      interpolation: 0.4, // The interpolation until the blur reaches its full radius, relative to the size of the view
-      direction: .down // The direction of the blur
+.glur(radius: 8.0, // The total radius of the blur effect when fully applied.
+      offset: 0.3, // The distance from the view's edge to where the effect begins, relative to the view's size.
+      interpolation: 0.4, // The distance from the offset to where the effect is fully applied, relative to the view's size.
+      direction: .down // The direction in which the effect is applied.
 )
 ```
 

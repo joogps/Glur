@@ -104,7 +104,7 @@ void calculateGaussianWeights(float radius,
     half4 result = half4(0.0);
     for (int i = 0; i < kernelSize; ++i) {
         float offset = i-(kernelSize-1)/2;
-        float y = clamp(position.y+offset, 0.0, layer.tex.get_width()-1.0);
+        float y = clamp(position.y+offset, 0.0, layer.tex.get_height()-1.0);
         
         result+= layer.sample(float2(position.x, y))*weights[i];
     }

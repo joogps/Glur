@@ -15,9 +15,9 @@
     </a>
 </p>
 
-A SwiftUI library that uses Metal to display efficient progressive blurs, just like the ones used by Apple.
+A SwiftUI library that uses Metal to display efficient progressive blurs, just like the ones used by Apple. Try it today [on the App Store](https://apps.apple.com/app/glur/id6478063257).
 
-<img width="1280" alt="A comparison of Glur and a simple masked material" src="https://github.com/joogps/Glur/assets/41346220/98f8b1b6-3b3c-4ea5-9316-ad54b2237f20">
+<img width="1280" alt="A comparison of Glur and a simple masked material" src="https://github.com/joogps/Glur/assets/41346220/1c748b09-a8e4-4782-a250-8563f106f298">
 
 ## Installation
 This repository is a Swift package, so just include it in your Xcode project and target under **File > Add package dependencies**. Then, `import Glur` to the Swift files where you'll be using it.

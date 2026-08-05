@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Glur
+import GlurBackdrop
 
 struct ContentView: View {
     var body: some View {
@@ -23,6 +24,11 @@ struct ContentView: View {
                 albumCover
                     .tabItem {
                         Label("Album", systemImage: "photo")
+                    }
+
+                scroll
+                    .tabItem {
+                        Label("Backdrop", systemImage: "square.stack")
                     }
             }
             #if os(iOS)
@@ -45,6 +51,34 @@ struct ContentView: View {
             .glur(radius: 32.0, offset: 0.3, interpolation: 0.5)
     }
     
+    /// A `ScrollView` is backed by the platform, so the shader can't be applied to it.
+    /// `GlurView` sits on top instead, blurring whatever scrolls underneath.
+    var scroll: some View {
+        ScrollView {
+            VStack(spacing: 12) {
+                ForEach(0..<12) { index in
+                    LinearGradient(colors: [Color("Color 1"), Color("Color 3")],
+                                   startPoint: .leading,
+                                   endPoint: .trailing)
+                    .frame(height: 72)
+                    .clipShape(.rect(cornerRadius: 12.0))
+                    .overlay(alignment: .leading) {
+                        Text("Row \(index)")
+                            .font(.headline)
+                            .padding()
+                    }
+                }
+            }
+            .padding()
+        }
+        .overlay(alignment: .top) {
+            if #available(iOS 16.0, macOS 13.0, tvOS 16.0, *) {
+                GlurView(radius: 12.0, offset: 0.0, interpolation: 1.0, direction: .up)
+                    .frame(height: 120)
+            }
+        }
+    }
+
     var albumCover: some View {
         Image("Sunburn")
             .resizable()

@@ -11,6 +11,10 @@ let package = Package(
         .library(
             name: "Glur",
             targets: ["Glur"]),
+        // Opt-in: blurs the content behind a view, using a private API on iOS. See the README.
+        .library(
+            name: "GlurBackdrop",
+            targets: ["GlurBackdrop"]),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -18,6 +22,10 @@ let package = Package(
         .target(
             name: "Glur",
             resources: [.process("Resources")]
+        ),
+        .target(
+            name: "GlurBackdrop",
+            dependencies: ["Glur"]
         ),
     ]
 )

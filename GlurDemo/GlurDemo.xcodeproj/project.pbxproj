@@ -13,6 +13,7 @@
 		27B4CA602B76874500A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA5F2B76874500A81A32 /* Glur */; };
 		27B4CA632B76882C00A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA622B76882C00A81A32 /* Glur */; };
 		27B4CA662B76885A00A81A32 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA652B76885A00A81A32 /* Glur */; };
+		27B4CA712B76885A00A81A32 /* GlurBackdrop in Frameworks */ = {isa = PBXBuildFile; productRef = 27B4CA702B76885A00A81A32 /* GlurBackdrop */; };
 		27E19CFC2A3581170023F301 /* GlurDemoApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFB2A3581170023F301 /* GlurDemoApp.swift */; };
 		27E19CFE2A3581170023F301 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E19CFD2A3581170023F301 /* ContentView.swift */; };
 		27E19D002A3581180023F301 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27E19CFF2A3581180023F301 /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 				275EB5BB2A35817400A53D49 /* Glur in Frameworks */,
 				27B4CA5D2B76871D00A81A32 /* Glur in Frameworks */,
 				27B4CA5A2B76870600A81A32 /* Glur in Frameworks */,
+				27B4CA712B76885A00A81A32 /* GlurBackdrop in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +106,7 @@
 				27B4CA5F2B76874500A81A32 /* Glur */,
 				27B4CA622B76882C00A81A32 /* Glur */,
 				27B4CA652B76885A00A81A32 /* Glur */,
+				27B4CA702B76885A00A81A32 /* GlurBackdrop */,
 			);
 			productName = GlurApp;
 			productReference = 27E19CF82A3581170023F301 /* GlurDemo.app */;
@@ -409,6 +412,10 @@
 		27B4CA652B76885A00A81A32 /* Glur */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Glur;
+		};
+		27B4CA702B76885A00A81A32 /* GlurBackdrop */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GlurBackdrop;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

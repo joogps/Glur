@@ -22,6 +22,15 @@ A SwiftUI library that uses Metal to display efficient progressive blurs, just l
 ## Installation
 This repository is a Swift package, so just include it in your Xcode project and target under **File > Add package dependencies**. Then, `import Glur` to the Swift files where you'll be using it.
 
+The package vends two products, and you choose which ones your target links against:
+
+| Product | What you get | Blurs | Private API |
+| --- | --- | --- | --- |
+| `Glur` | The `.glur()` modifier and `GlurMask` | The view it's applied to | None |
+| `GlurBackdrop` | `GlurView` | The content behind it | Yes, on iOS/tvOS/visionOS only — see [Blurring the backdrop](#blurring-the-backdrop) |
+
+`GlurBackdrop` depends on `Glur`, so masks are shared between them. Nothing in `GlurBackdrop` reaches your binary unless you add that product explicitly.
+
 > [!NOTE]  
 > While Glur is supported on older platforms, it will only utilize the Metal implementation of the blur effect on **iOS 17.0 and later, macOS 14.0 and later, and tvOS 17.0 and later**. Otherwise, it will present a worse, compatibility effect that should be tested by the developer before being used in production.
 > 
@@ -85,14 +94,42 @@ Only **opacity** matters, whichever mask you use. It's flattened to white carryi
 > [!WARNING]  
 > When being used in the iOS simulator, SwiftUI shader effects may not be displayed if the view exceeds 545 points in either dimension. Please note that, on a physical device, the effect should work as intented. 
 
+## Blurring the backdrop
+
+The modifier blurs the view it's applied to, which means it can only reach views SwiftUI draws itself. `GlurView` is the other half: a transparent overlay that blurs whatever is rendered *behind* it, including `ScrollView` and other platform-backed content.
+
+It ships as a **separate module**, so nothing below arrives in your binary unless you ask for it:
+
+```swift
+import GlurBackdrop
+
+content
+    .overlay(alignment: .top) {
+        GlurView(radius: 12.0, offset: 0.0, interpolation: 1.0, direction: .up)
+            .frame(height: 120)
+    }
+```
+
+It takes the same masks as the modifier, so `GlurView(radius: 12.0, mask: .radial())` works too.
+
+> [!NOTE]
+> `GlurView` requires **iOS 16.0, macOS 13.0 or tvOS 16.0**. Masks are rasterized with `ImageRenderer`, which starts there. The `.glur()` modifier is unaffected, since its Metal path starts later still and its compatibility effect never rasterizes.
+
+> [!WARNING]
+> On **iOS, tvOS and visionOS** this reaches a **private API** — nothing public applies a varying blur to a backdrop on those platforms. The class is looked up by name at runtime and the names are held as code units, so no readable literal ends up in the binary, but that is obfuscation rather than a guarantee. This is why it lives in its own module. Weigh the App Store risk yourself before shipping it.
+>
+> On **macOS** no private API is involved: `CALayer.backgroundFilters` is supported there, and Core Image ships `CIMaskedVariableBlur`. On **watchOS** the view renders as empty space.
+
 ## How it's done
 
 This project builds on a [proof of concept](https://twitter.com/joogps/status/1667240291869270032) developed in June of 2023, right after WWDC.
 
 It makes use of Apple's new simplified [Shader API for SwiftUI](https://developer.apple.com/documentation/swiftui/shader). First, I coded a Metal shader that produced a gaussian blur for the modified view with the correct gaussian weights distribution, efficiently. Then, I modified it slightly to vary the blur radius over the vertical or horizontal axis given the offset, interpolation and direction values.
 
-> [!WARNING]
-> Given that the shader is applied through Apple's own Shader API for SwiftUI, it is restricted by the limitations imposed by that API. This means that Glur **can only be applied to pure SwiftUI views**, excluding UIKit-backed views, such as `ScrollView`.
+> [!NOTE]
+> The shader runs through Apple's Shader API, which only reaches views SwiftUI draws itself. The `.glur()` modifier therefore **can't be applied to platform-backed views** such as `ScrollView`, `TextEditor` or `Map` — on those it silently does nothing.
+>
+> That's what [`GlurView`](#blurring-the-backdrop) is for: rather than blurring the view it's applied to, it blurs whatever is behind it, so you can lay one over a `ScrollView` instead of trying to apply the effect to it.
 
 > [!TIP]
 > If you want to learn how to write your first Metal shader with SwiftUI, check out [this tutorial](https://cindori.com/developer/swiftui-shaders-wave) that I wrote for the [Cindori](https://cindori.com) blog.

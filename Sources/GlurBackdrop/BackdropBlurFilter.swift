@@ -5,9 +5,9 @@
 //  Created by João Gabriel Pozzobon dos Santos on 04/08/25.
 //
 
-#if canImport(UIKit) && !os(watchOS)
+#if canImport(QuartzCore) && !os(watchOS)
 
-import UIKit
+import QuartzCore
 import CoreGraphics
 
 /// The filter Core Animation uses to blur a backdrop by a varying radius.
@@ -18,6 +18,7 @@ internal struct BackdropBlurFilter {
     fileprivate enum Symbol {
         static let filterClass: [UInt8] = [67, 65, 70, 105, 108, 116, 101, 114]
         static let scaleKey: [UInt8] = [115, 99, 97, 108, 101]
+        static let backdropClass: [UInt8] = [67, 65, 66, 97, 99, 107, 100, 114, 111, 112, 76, 97, 121, 101, 114]
         static let factory: [UInt8] = [102, 105, 108, 116, 101, 114, 87, 105, 116, 104, 84, 121, 112, 101, 58]
         static let kind: [UInt8] = [118, 97, 114, 105, 97, 98, 108, 101, 66, 108, 117, 114]
         static let radiusKey: [UInt8] = [105, 110, 112, 117, 116, 82, 97, 100, 105, 117, 115]
@@ -52,6 +53,17 @@ internal struct BackdropBlurFilter {
         object.setValue(radius, forKey: Symbol.name(Symbol.radiusKey))
         object.setValue(mask, forKey: Symbol.name(Symbol.maskKey))
         object.setValue(true, forKey: Symbol.name(Symbol.normalizeKey))
+    }
+}
+
+extension BackdropBlurFilter {
+    /// The layer kind that samples what's rendered behind it. AppKit has no view that
+    /// vends one, so on macOS it has to be built directly.
+    static func makeBackdropLayer() -> CALayer? {
+        guard let type = NSClassFromString(Symbol.name(Symbol.backdropClass)) as? CALayer.Type else {
+            return nil
+        }
+        return type.init()
     }
 }
 

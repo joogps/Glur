@@ -26,11 +26,10 @@ import Glur
 /// The effect is shaped by the same ``Glur/GlurMask`` the modifier uses, so linear,
 /// radial and custom masks all work here too.
 ///
-/// > Warning: On iOS, tvOS and visionOS this reaches a **private API**, since nothing
-/// public applies a varying blur to a backdrop there. That's why it lives in the separate
+/// > Warning: This reaches a **private API** on every platform it supports, since nothing
+/// public applies a varying blur to a backdrop. That's why it lives in the separate
 /// `GlurBackdrop` module — importing `Glur` alone keeps your binary free of it. Review
-/// your own risk tolerance before shipping it. The macOS implementation is unrelated and
-/// uses no private API.
+/// your own risk tolerance before shipping it.
 ///
 /// > Note: Not available on watchOS, where the view renders as empty space.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, visionOS 1.0, *)

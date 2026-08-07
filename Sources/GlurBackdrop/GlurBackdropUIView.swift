@@ -39,7 +39,7 @@ open class GlurBackdropUIView: UIVisualEffectView {
         super.init(effect: UIBlurEffect(style: .regular))
 
         guard let filter else {
-            print("[Glur] Error: the backdrop blur filter is unavailable")
+            NSLog("[Glur] Error: the backdrop blur filter is unavailable")
             return
         }
 

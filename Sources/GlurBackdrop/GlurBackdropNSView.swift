@@ -8,17 +8,27 @@
 #if canImport(AppKit) && !targetEnvironment(macCatalyst)
 
 import AppKit
-import CoreImage
-import CoreImage.CIFilterBuiltins
+import QuartzCore
 import SwiftUI
 import Glur
 
-/// A layer-backed view that blurs what's behind it, shaped by a ``Glur/GlurMask``.
+/// A view that blurs what's rendered behind it, shaped by a ``Glur/GlurMask``.
 ///
-/// macOS supports `CALayer.backgroundFilters`, and Core Image ships a variable blur in
-/// `CIMaskedVariableBlur`, so unlike the iOS implementation this one needs no private API.
+/// Two approaches don't work here, both worth knowing about. `CALayer.backgroundFilters`
+/// is genuinely supported on macOS, but only for an AppKit layer hierarchy: SwiftUI draws
+/// its content into its own hosting layer rather than into sibling layers beneath this
+/// one, so nothing is composited behind the view and the filter runs against nothing.
+/// `NSVisualEffectView`, the iOS route's counterpart, has no in-process backdrop layer to
+/// borrow — its own layer has no sublayers, because the blur happens out of process.
+///
+/// What's left is to build the backdrop layer directly and host it.
+///
+/// > Warning: This reaches ``BackdropBlurFilter``, which is private API. See ``GlurView``.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, visionOS 1.0, *)
 open class GlurBackdropNSView: NSView {
+    private let filter = BackdropBlurFilter()
+    private var backdrop: CALayer?
+
     private var radius: CGFloat
     private var glurMask: GlurMask
     private var layoutDirection: LayoutDirection
@@ -30,10 +40,17 @@ open class GlurBackdropNSView: NSView {
 
         super.init(frame: .zero)
 
-        // Has to be set before the layer is created, or the filters are silently dropped.
-        layerUsesCoreImageFilters = true
         wantsLayer = true
         layer?.masksToBounds = true
+
+        guard let filter, let backdrop = BackdropBlurFilter.makeBackdropLayer() else {
+            NSLog("[Glur] Error: the backdrop blur filter is unavailable")
+            return
+        }
+
+        backdrop.filters = [filter.object]
+        layer?.addSublayer(backdrop)
+        self.backdrop = backdrop
 
         applyParameters()
     }
@@ -53,32 +70,25 @@ open class GlurBackdropNSView: NSView {
         applyParameters()
     }
 
+    open override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+
+        guard let window else { return }
+        backdrop?.setBackdropScale(window.backingScaleFactor)
+    }
+
     open override func layout() {
         super.layout()
 
-        // The mask is scaled to the layer, so it has to be rebuilt when the view resizes.
-        applyParameters()
+        // The layer is positioned by hand, so it has to follow the view's bounds.
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        backdrop?.frame = bounds
+        CATransaction.commit()
     }
 
     private func applyParameters() {
-        guard let layer, bounds.width > 0.0, bounds.height > 0.0 else { return }
-
-        guard let cgImage = glurMask.cgImage(layoutDirection: layoutDirection) else {
-            layer.backgroundFilters = []
-            return
-        }
-
-        // Core Image reads the mask's luminance rather than its alpha, which the
-        // premultiplied white gradient carries just as well.
-        let image = CIImage(cgImage: cgImage)
-        let scale = CGAffineTransform(scaleX: bounds.width/image.extent.width,
-                                      y: bounds.height/image.extent.height)
-
-        let filter = CIFilter.maskedVariableBlur()
-        filter.mask = image.transformed(by: scale)
-        filter.radius = Float(radius)
-
-        layer.backgroundFilters = [filter]
+        filter?.apply(radius: radius, mask: glurMask.cgImage(layoutDirection: layoutDirection))
     }
 }
 

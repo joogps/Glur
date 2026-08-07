@@ -27,7 +27,7 @@ The package vends two products, and you choose which ones your target links agai
 | Product | What you get | Blurs | Private API |
 | --- | --- | --- | --- |
 | `Glur` | The `.glur()` modifier and `GlurMask` | The view it's applied to | None |
-| `GlurBackdrop` | `GlurView` | The content behind it | Yes, on iOS/tvOS/visionOS only — see [Blurring the backdrop](#blurring-the-backdrop) |
+| `GlurBackdrop` | `GlurView` | The content behind it | Yes — see [Blurring the backdrop](#blurring-the-backdrop) |
 
 `GlurBackdrop` depends on `Glur`, so masks are shared between them. Nothing in `GlurBackdrop` reaches your binary unless you add that product explicitly.
 
@@ -116,9 +116,11 @@ It takes the same masks as the modifier, so `GlurView(radius: 12.0, mask: .radia
 > `GlurView` requires **iOS 16.0, macOS 13.0 or tvOS 16.0**. Masks are rasterized with `ImageRenderer`, which starts there. The `.glur()` modifier is unaffected, since its Metal path starts later still and its compatibility effect never rasterizes.
 
 > [!WARNING]
-> On **iOS, tvOS and visionOS** this reaches a **private API** — nothing public applies a varying blur to a backdrop on those platforms. The class is looked up by name at runtime and the names are held as code units, so no readable literal ends up in the binary, but that is obfuscation rather than a guarantee. This is why it lives in its own module. Weigh the App Store risk yourself before shipping it.
+> This reaches a **private API on every platform it supports** — nothing public applies a varying blur to a backdrop. Classes are looked up by name at runtime and the names are held as code units, so no readable literal ends up in the binary, but that is obfuscation rather than a guarantee. This is why it lives in its own module. Weigh the App Store risk yourself before shipping it.
 >
-> On **macOS** no private API is involved: `CALayer.backgroundFilters` is supported there, and Core Image ships `CIMaskedVariableBlur`. On **watchOS** the view renders as empty space.
+> On **watchOS** the view renders as empty space.
+
+macOS looks like it should avoid this, and doesn't. `CALayer.backgroundFilters` is genuinely supported there, and Core Image ships `CIMaskedVariableBlur` — but that pair only works for an AppKit layer hierarchy. SwiftUI draws its content into its own hosting layer rather than into sibling layers beneath the view, so nothing is composited behind it and the filter runs against nothing. `NSVisualEffectView` is no help either: it has no in-process backdrop layer to borrow, because its blur happens out of process.
 
 ## How it's done
 

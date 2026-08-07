@@ -15,7 +15,7 @@
     </a>
 </p>
 
-A SwiftUI library that uses Metal to display efficient progressive blurs, just like the ones used by Apple. No **CIFilter**, and no **private APIs** used.(https://apps.apple.com/app/glur/id6478063257).
+A SwiftUI library that uses Metal to display efficient progressive blurs, just like the ones used by Apple. No **CIFilter**, and no **private APIs** used.
 
 <img width="1280" alt="A comparison of Glur and a simple masked material" src="https://github.com/joogps/Glur/assets/41346220/1c748b09-a8e4-4782-a250-8563f106f298">
 

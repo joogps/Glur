@@ -9,17 +9,11 @@ import SwiftUI
 
 internal struct CompatibilityModifier: ViewModifier {
     public var radius: CGFloat
-    public var offset: CGFloat
-    public var interpolation: CGFloat
-    public var direction: BlurDirection
+    public var mask: GlurMask
     public var drawingGroup: Bool
-    
+
     @Environment(\.layoutDirection) var layoutDirection
-    
-    var evaluatedDirection: BlurDirection.Evaluated {
-        direction.evaluate(with: layoutDirection)
-    }
-    
+
     @ViewBuilder
     func body(content: Content) -> some View {
         if radius.isZero {
@@ -38,35 +32,8 @@ internal struct CompatibilityModifier: ViewModifier {
                     .allowsHitTesting(false)
                     .blur(radius: radius)
                     .scaleEffect(1+(radius*0.02))
-                    .mask(gradientMask)
+                    .mask(mask.view(layoutDirection: layoutDirection))
                 }
-        }
-    }
-    
-    var gradientMask: some View {
-        let (startPoint, endPoint) = evaluatedDirection.unitPoints
-        
-        return LinearGradient(stops: [
-            .init(color: .clear, location: 0),
-            .init(color: .clear, location: offset),
-            .init(color: .black, location: offset+interpolation)
-        ],
-                       startPoint: startPoint,
-                       endPoint: endPoint)
-    }
-}
-
-fileprivate extension BlurDirection.Evaluated {
-    var unitPoints: (UnitPoint, UnitPoint) {
-        switch self {
-        case .down:
-            return (.top, .bottom)
-        case .up:
-            return (.bottom, .top)
-        case .right:
-            return (.leading, .trailing)
-        case .left:
-            return (.trailing, .leading)
         }
     }
 }

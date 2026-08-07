@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public enum BlurDirection {
+public enum BlurDirection: Hashable {
     case down
     case up
     case right
@@ -17,11 +17,25 @@ public enum BlurDirection {
     case trailing
     case leading
     
-    public enum Evaluated: Int {
+    public enum Evaluated: Int, Hashable {
         case down = 0
         case up = 1
         case right = 2
         case left = 3
+
+        /// The points the effect runs between, in the view's unit space.
+        public var unitPoints: (UnitPoint, UnitPoint) {
+            switch self {
+            case .down:
+                return (.top, .bottom)
+            case .up:
+                return (.bottom, .top)
+            case .right:
+                return (.leading, .trailing)
+            case .left:
+                return (.trailing, .leading)
+            }
+        }
     }
     
     public func evaluate(with direction: LayoutDirection) -> Evaluated {

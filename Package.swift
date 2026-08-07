@@ -11,7 +11,7 @@ let package = Package(
         .library(
             name: "Glur",
             targets: ["Glur"]),
-        // Opt-in: blurs the content behind a view, using a private API on iOS. See the README.
+        // Opt-in: blurs the content behind a view, using a private API. See the README.
         .library(
             name: "GlurBackdrop",
             targets: ["GlurBackdrop"]),

@@ -9,104 +9,79 @@
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
-#define kernelSize (64)
+// The widest half-kernel we're willing to run, which caps the effective radius.
+//
+// The effect is applied through layerEffect with a maxSampleOffset of zero, so the view's
+// drawing bounds are never grown to accommodate it: a kernel wide enough to reach the
+// edges leaves the blur cut off there rather than fading out. This is the reach the fixed
+// 64-tap kernel used to have, kept so that existing views look the way they always did.
+#define kMaxHalfWidth (31)
 
+constexpr sampler maskSampler(filter::linear, address::clamp_to_edge);
+
+/// The radius at this position, driven by the alpha of the corresponding pixel in the
+/// mask. An alpha of 1 means the full radius, an alpha of 0 means no blur at all.
 float mapRadius(float2 position,
                 float2 size,
-                float offset,
-                float interpolation,
-                float radius,
-                float direction) {
-    float mapped = 0.0;
-    
-    if (direction == 0) {
-        mapped = max((position.y/size.y-offset)/interpolation, 0.0);
-    } else if (direction == 1) {
-        mapped = max(0.5-(position.y/size.y-offset)/interpolation, 0.0);
-    } else if (direction == 2) {
-        mapped = max((position.x/size.x-offset)/interpolation, 0.0);
-    } else if (direction == 3) {
-        mapped = max(0.5-(position.x/size.x-offset)/interpolation, 0.0);
-    }
-    
-    return min(mapped*radius, radius);
+                texture2d<half> mask,
+                float radius) {
+    return float(mask.sample(maskSampler, position/size).a)*radius;
 }
 
-void calculateGaussianWeights(float radius,
-                              thread half weights[]) {
-    half sum = 0.0;
-    
-    for (int i = 0; i < kernelSize; ++i) {
-        float x = i-(kernelSize-1)/2;
-        weights[i] = exp(-(x*x)/(2.0*radius*radius));
-        sum+= weights[i];
+/// A single separable gaussian pass. The number of taps follows the radius, so small
+/// radii don't pay for samples whose weights round to zero, and the weights are
+/// normalized by the sum actually accumulated, so no energy is lost at large radii.
+half4 gaussian(float2 position,
+               SwiftUI::Layer layer,
+               float2 size,
+               float radius,
+               bool horizontal) {
+    int halfWidth = min(int(ceil(radius*3.0)), kMaxHalfWidth);
+
+    half4 result = half4(0.0);
+    float weightSum = 0.0;
+
+    for (int i = -halfWidth; i <= halfWidth; ++i) {
+        float weight = exp(-float(i*i)/(2.0*radius*radius));
+
+        float2 samplePosition = position;
+        if (horizontal) {
+            samplePosition.x = clamp(position.x+float(i), 0.0, size.x-1.0);
+        } else {
+            samplePosition.y = clamp(position.y+float(i), 0.0, size.y-1.0);
+        }
+
+        result+= layer.sample(samplePosition)*half(weight);
+        weightSum+= weight;
     }
-    
-    for (int i = 0; i < kernelSize; ++i) {
-        weights[i]/= sum;
-    }
+
+    return result/half(weightSum);
 }
 
 [[ stitchable ]] half4 blurX(float2 position,
                              SwiftUI::Layer layer,
+                             texture2d<half> mask,
                              float radius,
-                             float offset,
-                             float interpolation,
-                             float direction,
                              float2 size) {
-    float r = mapRadius(position,
-                        size,
-                        offset,
-                        interpolation,
-                        radius,
-                        direction);
-    
-    if (r == 0) {
+    float r = mapRadius(position, size, mask, radius);
+
+    if (r <= 0.0) {
         return layer.sample(position);
     }
-    
-    half weights[kernelSize];
-    calculateGaussianWeights(r, weights);
-    
-    half4 result = half4(0.0);
-    for (int i = 0; i < kernelSize; ++i) {
-        float offset = i-(kernelSize-1)/2;
-        float x = clamp(position.x+offset, 0.0, size.x-1.0);
-        
-        result+= layer.sample(float2(x, position.y))*weights[i];
-    }
-    
-    return result;
+
+    return gaussian(position, layer, size, r, true);
 }
 
 [[ stitchable ]] half4 blurY(float2 position,
                              SwiftUI::Layer layer,
+                             texture2d<half> mask,
                              float radius,
-                             float offset,
-                             float interpolation,
-                             float direction,
                              float2 size) {
-    float r = mapRadius(position,
-                        size,
-                        offset,
-                        interpolation,
-                        radius,
-                        direction);
-    
-    if (r == 0) {
+    float r = mapRadius(position, size, mask, radius);
+
+    if (r <= 0.0) {
         return layer.sample(position);
     }
-    
-    half weights[kernelSize];
-    calculateGaussianWeights(r, weights);
-    
-    half4 result = half4(0.0);
-    for (int i = 0; i < kernelSize; ++i) {
-        float offset = i-(kernelSize-1)/2;
-        float y = clamp(position.y+offset, 0.0, size.y-1.0);
-        
-        result+= layer.sample(float2(position.x, y))*weights[i];
-    }
-    
-    return result;
+
+    return gaussian(position, layer, size, r, false);
 }

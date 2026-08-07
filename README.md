@@ -46,6 +46,42 @@ Here are all optional parameters:
 )
 ```
 
+### Masks
+
+Where the effect lands is described by a `GlurMask`, a grayscale ramp in which an intensity of `0` leaves the view untouched and an intensity of `1` applies the full radius. The parameters above are shorthand for the default one, so these two are the same effect:
+
+```swift
+.glur(radius: 8.0, offset: 0.3, interpolation: 0.4, direction: .down)
+.glur(radius: 8.0, mask: .linear(direction: .down, offset: 0.3, interpolation: 0.4))
+```
+
+Passing a mask directly opens up the shapes the shorthand can't spell:
+
+```swift
+.glur(radius: 8.0, mask: .radial(offset: 0.2, interpolation: 0.5)) // Sharp in the middle, blurred towards the corners
+.glur(radius: 8.0, mask: .radial(offset: 0.2, interpolation: 0.5, spread: 2.5)) // The same, reaching much further out
+.glur(radius: 8.0, mask: .linear(stops: [.init(intensity: 1.0, location: 0.0), // Blurred at both ends, sharp in the middle
+                                         .init(intensity: 0.0, location: 0.5),
+                                         .init(intensity: 1.0, location: 1.0)]))
+```
+
+`spread` is how far a radial mask reaches, as a multiple of the view's longest side. At `1.0` the ramp finishes at the far edge; larger values push it outwards, so the falloff is wider and gentler and the corners never reach the full radius.
+
+#### Any view can be a mask
+
+Every mask is a SwiftUI gradient underneath — `.linear` is a `LinearGradient`, `.radial` a `RadialGradient` — drawn into a square with `ImageRenderer` and stretched to fit. `.view()` hands that same pipeline something of your own, which covers everything the built-in ramps can't spell: angular, elliptical and mesh gradients, shapes, text, images.
+
+```swift
+.glur(radius: 8.0, mask: .view(AngularGradient(colors: [.black, .clear], center: .center)))
+.glur(radius: 8.0, mask: .view(Text("blur").font(.system(size: 96, weight: .black))))
+.glur(radius: 8.0, mask: .image(myCGImage)) // Or a bitmap you already have
+```
+
+Only **opacity** matters, whichever mask you use. It's flattened to white carrying that alpha, so colors are ignored and `.black` to `.clear` reads the same as `.white` to `.clear`.
+
+> [!NOTE]
+> The built-in gradients depend only on their own parameters, never on the size of the view, so they're drawn once and cached. A `.view()` mask can't be cached that way and is redrawn whenever the effect updates — prefer a built-in mask where one will do.
+
 > [!WARNING]  
 > When being used in the iOS simulator, SwiftUI shader effects may not be displayed if the view exceeds 545 points in either dimension. Please note that, on a physical device, the effect should work as intented. 
 

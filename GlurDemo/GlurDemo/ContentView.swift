@@ -10,7 +10,7 @@ import Glur
 import GlurBackdrop
 
 struct ContentView: View {
-    @State private var transparentRadius = 24.0
+    @State private var transparentRadius = 12.0
     @State private var transparentMaskIndex = 0
     @State private var transparentTailFade = true
     @State private var transparentNoise = false

@@ -55,6 +55,25 @@ Here are all optional parameters:
 )
 ```
 
+### Transparent content and clipping
+
+For transparent shapes, add padding **before** `.glur()` to leave room for the
+blur to fade. The Metal passes declare their sampling reach so the halo can
+extend past the shape's drawing bounds; padding alone does not establish those
+bounds. The current kernel reaches `min(ceil(radius * 3), 31)` points per axis.
+
+```swift
+Circle()
+    .strokeBorder(.orange, lineWidth: 6)
+    .frame(width: 56, height: 56)
+    .padding(24)
+    .glur(radius: 8, noise: 0)
+```
+
+Apply `.clipped()` or `.clipShape(...)` after `.glur()` when you want to constrain
+the result to a viewport. The demo's **Transparency** page exercises an angular
+ring with adjustable radius, mask, noise, and drawing-group settings.
+
 ### Masks
 
 Where the effect lands is described by a `GlurMask`, a grayscale ramp in which an intensity of `0` leaves the view untouched and an intensity of `1` applies the full radius. The parameters above are shorthand for the default one, so these two are the same effect:

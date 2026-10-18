@@ -9,12 +9,9 @@
 #include <SwiftUI/SwiftUI_Metal.h>
 using namespace metal;
 
-// The widest half-kernel we're willing to run, which caps the effective radius.
-//
-// The effect is applied through layerEffect with a maxSampleOffset of zero, so the view's
-// drawing bounds are never grown to accommodate it: a kernel wide enough to reach the
-// edges leaves the blur cut off there rather than fading out. This is the reach the fixed
-// 64-tap kernel used to have, kept so that existing views look the way they always did.
+// Maximum Gaussian half-kernel support, in points. Keep GlurModifier's
+// sampleReach in sync so SwiftUI makes every sampled pixel available.
+// Retain the existing 31-point cap to preserve the blur's cost and appearance.
 #define kMaxHalfWidth (31)
 
 constexpr sampler maskSampler(filter::linear, address::clamp_to_edge);

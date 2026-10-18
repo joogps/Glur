@@ -31,6 +31,10 @@ internal struct GlurModifier: ViewModifier {
         return shader
     }
 
+    /// Match gaussian()'s three-sigma support and kMaxHalfWidth in blur.metal.
+    /// Layout padding alone does not expand a layer effect's drawing bounds.
+    private var sampleReach: CGFloat { min(ceil(radius * 3), 31) }
+
     @ViewBuilder
     public func body(content: Content) -> some View {
         if let mask = maskImage, !radius.isZero {
@@ -51,8 +55,10 @@ internal struct GlurModifier: ViewModifier {
             .onPreferenceChange(SizePreferenceKey.self) { size in
                 self.size = size
             }
-            .layerEffect(shader(library.blurX, mask: mask, amount: radius), maxSampleOffset: .zero)
-            .layerEffect(shader(library.blurY, mask: mask, amount: radius), maxSampleOffset: .zero)
+            .layerEffect(shader(library.blurX, mask: mask, amount: radius),
+                         maxSampleOffset: CGSize(width: sampleReach, height: 0))
+            .layerEffect(shader(library.blurY, mask: mask, amount: radius),
+                         maxSampleOffset: CGSize(width: 0, height: sampleReach))
             .layerEffect(shader(library.noise, mask: mask, amount: noise), maxSampleOffset: .zero)
         } else {
             content

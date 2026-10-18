@@ -12,7 +12,6 @@ import GlurBackdrop
 struct ContentView: View {
     @State private var transparentRadius = 12.0
     @State private var transparentMaskIndex = 0
-    @State private var transparentTailFade = true
     @State private var transparentNoise = false
     @State private var transparentDrawingGroup = true
 
@@ -76,19 +75,15 @@ struct ContentView: View {
                       noise: transparentNoise ? 0.1 : 0,
                       drawingGroup: transparentDrawingGroup)
                 .mask {
-                    if transparentMaskIndex == 0 && transparentTailFade {
-                        // Fade only the 45° at the end of the blurred tail.
-                        // Applied after the blur, this suppresses light sampled
-                        // from the sharp tip without smoothing its discontinuity.
-                        AngularGradient(stops: [
-                            .init(color: .clear, location: 0),
-                            .init(color: .white.opacity(0.15), location: 22.5 / 360),
-                            .init(color: .white, location: 45.0 / 360),
-                            .init(color: .white, location: 1)
-                        ], center: .center)
-                    } else {
-                        Color.white
-                    }
+                    // Fade only the 45° at the end of the blurred tail.
+                    // Applied after the blur, this suppresses light sampled
+                    // from the sharp tip without smoothing its discontinuity.
+                    AngularGradient(stops: [
+                        .init(color: .clear, location: 0),
+                        .init(color: .white.opacity(0.15), location: 22.5 / 360),
+                        .init(color: .white, location: 45.0 / 360),
+                        .init(color: .white, location: 1)
+                    ], center: .center)
                 }
                 .frame(width: 220, height: 220)
                 .background(Color.white.opacity(0.05))
@@ -102,9 +97,6 @@ struct ContentView: View {
 
             Text("Radius: \(transparentRadius, specifier: "%.1f")")
             Slider(value: $transparentRadius, in: 0...32)
-            if transparentMaskIndex == 0 {
-                Toggle("45° tail alpha fade", isOn: $transparentTailFade)
-            }
             Toggle("Noise", isOn: $transparentNoise)
             Toggle("Drawing group", isOn: $transparentDrawingGroup)
         }

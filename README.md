@@ -72,8 +72,8 @@ Circle()
 
 Apply `.clipped()` or `.clipShape(...)` after `.glur()` when you want to constrain
 the result to a viewport. The demo's **Transparency** page exercises an angular
-ring with adjustable radius, mask, noise, and drawing-group settings. Its optional
-45° tail alpha fade is applied after the angular blur to reduce light spilling
+ring with adjustable radius, mask, noise, and drawing-group settings. Its
+45° tail alpha fade is always applied after the blur to reduce light spilling
 from the sharp tip into the end of the tail, while preserving the discontinuity.
 
 ### Masks

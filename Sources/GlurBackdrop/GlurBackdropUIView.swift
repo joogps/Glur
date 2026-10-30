@@ -21,8 +21,6 @@ import Glur
 /// > Warning: This reaches ``BackdropBlurFilter``, which is private API. See ``GlurView``.
 @available(iOS 16.0, macOS 13.0, tvOS 16.0, visionOS 1.0, *)
 open class GlurBackdropUIView: UIVisualEffectView {
-    private let filter = BackdropBlurFilter()
-
     private var radius: CGFloat
     private var glurMask: GlurMask
     private var layoutDirection: LayoutDirection
@@ -38,12 +36,11 @@ open class GlurBackdropUIView: UIVisualEffectView {
 
         super.init(effect: UIBlurEffect(style: .regular))
 
-        guard let filter else {
+        guard BackdropBlurFilter() != nil else {
             NSLog("[Glur] Error: the backdrop blur filter is unavailable")
             return
         }
 
-        backdropLayer?.filters = [filter.object]
         subviews.dropFirst().forEach { $0.alpha = 0.0 }
 
         applyParameters()
@@ -62,13 +59,16 @@ open class GlurBackdropUIView: UIVisualEffectView {
         applyParameters()
     }
 
+    /// A layer keeps its own copy of each filter it's given, so changing one it already has
+    /// does nothing on screen. Every change hands it a new filter instead.
     private func applyParameters() {
-        let mask = glurMask.cgImage(layoutDirection: layoutDirection)
-        if let backdropLayer {
-            filter?.apply(radius: radius, mask: mask, to: backdropLayer)
-        } else {
-            filter?.apply(radius: radius, mask: mask)
-        }
+        guard let filter = BackdropBlurFilter() else { return }
+        filter.apply(radius: radius, mask: glurMask.cgImage(layoutDirection: layoutDirection))
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        backdropLayer?.filters = [filter.object]
+        CATransaction.commit()
     }
 
     open override func didMoveToWindow() {

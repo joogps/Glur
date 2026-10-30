@@ -23,7 +23,6 @@ internal struct BackdropBlurFilter {
         static let kind: [UInt8] = [118, 97, 114, 105, 97, 98, 108, 101, 66, 108, 117, 114]
         static let radiusKey: [UInt8] = [105, 110, 112, 117, 116, 82, 97, 100, 105, 117, 115]
         static let maskKey: [UInt8] = [105, 110, 112, 117, 116, 77, 97, 115, 107, 73, 109, 97, 103, 101]
-        static let filtersKey: [UInt8] = [102, 105, 108, 116, 101, 114, 115]
         static let normalizeKey: [UInt8] = [105, 110, 112, 117, 116, 78, 111, 114, 109, 97, 108, 105, 122, 101, 69, 100, 103, 101, 115]
 
         static func name(_ units: [UInt8]) -> String {
@@ -54,20 +53,6 @@ internal struct BackdropBlurFilter {
         object.setValue(radius, forKey: Symbol.name(Symbol.radiusKey))
         object.setValue(mask, forKey: Symbol.name(Symbol.maskKey))
         object.setValue(true, forKey: Symbol.name(Symbol.normalizeKey))
-    }
-
-    /// Applies the parameters to the copy of the filter that `layer` holds. A layer copies
-    /// the filters it's given, so once it has one, changing the original does nothing; the
-    /// copy is only reachable by key path, through the filter's name.
-    func apply(radius: CGFloat, mask: CGImage?, to layer: CALayer) {
-        apply(radius: radius, mask: mask)
-
-        let path = [Symbol.name(Symbol.filtersKey), Symbol.name(Symbol.kind)].joined(separator: ".")
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        layer.setValue(radius, forKeyPath: path + "." + Symbol.name(Symbol.radiusKey))
-        layer.setValue(mask, forKeyPath: path + "." + Symbol.name(Symbol.maskKey))
-        CATransaction.commit()
     }
 }
 

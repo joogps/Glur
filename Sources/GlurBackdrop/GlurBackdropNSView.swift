@@ -88,7 +88,12 @@ open class GlurBackdropNSView: NSView {
     }
 
     private func applyParameters() {
-        filter?.apply(radius: radius, mask: glurMask.cgImage(layoutDirection: layoutDirection))
+        let mask = glurMask.cgImage(layoutDirection: layoutDirection)
+        if let backdrop {
+            filter?.apply(radius: radius, mask: mask, to: backdrop)
+        } else {
+            filter?.apply(radius: radius, mask: mask)
+        }
     }
 }
 

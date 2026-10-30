@@ -63,7 +63,12 @@ open class GlurBackdropUIView: UIVisualEffectView {
     }
 
     private func applyParameters() {
-        filter?.apply(radius: radius, mask: glurMask.cgImage(layoutDirection: layoutDirection))
+        let mask = glurMask.cgImage(layoutDirection: layoutDirection)
+        if let backdropLayer {
+            filter?.apply(radius: radius, mask: mask, to: backdropLayer)
+        } else {
+            filter?.apply(radius: radius, mask: mask)
+        }
     }
 
     open override func didMoveToWindow() {
